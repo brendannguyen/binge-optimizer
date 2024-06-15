@@ -1,18 +1,34 @@
-import { Box } from '@mui/material';
+import { Box, Stack, useMediaQuery } from '@mui/material';
 
 import './HomePage.css'
 import Grid from '@mui/material/Unstable_Grid2';
-import MediaSelector from '../components/MediaSelector';
-import OptionsViewer from '../components/OptionsViewer';
-import ChosenMedia from '../components/ChosenMedia';
+import SearchBlock from '../components/SearchBlock';
+import ListBlock from '../components/ListBlock';
+import DetailsBlock from '../components/DetailsBlock';
+import TitleBlock from '../components/TitleBlock';
+import RecommendedBlock from '../components/RecommendedBlock';
+import TrendingBlock from '../components/TrendingBlock';
 
 const HomePage = () => {
+    const customXL = useMediaQuery('(min-width:1730px)');
+
     return (
-        <Box display='flex' justifyContent='center' alignItems='center' zIndex={1} sx={{ flexGrow: 1 }} minHeight='100vh' minWidth='100vw'>
-            <Grid container spacing={2}>
-                <Grid xs={4} ><MediaSelector/></Grid>
-                <Grid xs={4} ><ChosenMedia/></Grid>
-                <Grid xs={4} ><OptionsViewer/></Grid>
+        <Box justifyContent='center' alignItems='center' height='100vh' width='100vw' maxHeight='100vh' maxWidth='100vw'>
+            <Grid container spacing='1.5em'  width='100%' height='100%' maxHeight='100%'  justifyContent='center' paddingLeft='1.5em' paddingTop='1.5em'>
+                <Grid md={4} lg={3} xl={customXL ? 3 : 3} height='100%'><SearchBlock/></Grid>
+                <Grid md={4} lg={3} xl={customXL ? 2 : 3} height='100%'>
+                    <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                        <TitleBlock/>
+                        <RecommendedBlock/>
+                    </Stack>
+                </Grid>
+                <Grid md={4} lg={6} xl={customXL ? 5: 6} height='100%' >
+                    <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                        <ListBlock/>
+                        <DetailsBlock/>
+                    </Stack>
+                </Grid>
+                <Grid lg={12} xl={customXL ? 2: 12} height='100%' ><TrendingBlock /></Grid>
             </Grid>
         </Box>
     )
