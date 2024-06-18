@@ -61,7 +61,7 @@ const SearchBlock = (props) => {
             <Box overflow='auto' marginBottom='1.5em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
                     {searchItems.map((item) => (
-                        <SearchItem  title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type}/>
+                        <SearchItem  title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                     ))}
                     {
                         (searchItems.length > 0) && <Tooltip title="Search More"><IconButton

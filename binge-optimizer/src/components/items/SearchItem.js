@@ -1,8 +1,10 @@
-import { Box, Card, CardActions, CardMedia, IconButton, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Box, Card, CardActions, CardMedia, IconButton, Popover, Stack, Typography, useMediaQuery } from "@mui/material";
 
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { useRef, useState } from "react";
+import ExtendedItem from "./ExtendedItem";
 
 function truncateTitle(title, oneLine) {
     let words = title.split(" ");
@@ -41,10 +43,64 @@ const SearchItem = (props) => {
     const customXL = useMediaQuery('(min-width:1730px)');
     const customXS = useMediaQuery('(max-width:330px)');
 
+    let date = null;
+    if (props.release_date) date = props.release_date.split("-")[0];
+    if (props.original_air_date) date = props.original_air_date.split("-")[0];
+
+
+    const [isEnoughHover, setIsEnoughHover] = useState(false);
+    var timeoutId = null;
+    const handleHoverOver = () => {
+        timeoutId = setTimeout(function(){
+            setIsEnoughHover(true);
+            setOpenPopover(true);
+        }, 1000)
+    }
+
+    const handleHoverCancel = () => {
+        clearTimeout(timeoutId);
+        setIsEnoughHover(false);
+        setOpenPopover(false);
+    }
+    const cardRef = useRef(null);
+    const [openPopover, setOpenPopover] = useState(false);
+
     return (
-        <Card raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', minWidth: '170px', height: '155px', borderRadius: '10px', width: '100%'}}>
-            <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center'>
-                <Box display='flex' height='100%' width='100%'>
+        <>
+        <Popover
+            id="mouse-over-popover"
+            sx={{
+                pointerEvents: 'none',
+                backgroundColor: 'transparent',
+                justifyContent: 'center',
+                '.MuiPaper-root': {
+                    bgcolor: 'transparent',
+                    justifyContent: 'center',
+                    padding: '0.5em',
+                    height: '155px',
+                    overflow: 'hidden'
+                },
+            }}
+            open={openPopover}
+            anchorEl={cardRef.current}
+            anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+            }}
+            transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+            }}
+            disableRestoreFocus
+            elevation={0}
+        >
+           <ExtendedItem type={props.type} id={props.id} />
+        </Popover>
+        <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', minWidth: '170px', height: '155px', borderRadius: '10px', width: '100%', position: 'relative', zIndex: 0 }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} >
+            <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: `url(https://image.tmdb.org/t/p/original${props.backdropSrc})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 1s ease', opacity: isEnoughHover ? 0.2 : 0, zIndex: 0}} />
+
+            <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center' zIndex={1}>
+                <Box display='flex' height='100%' width='100%' zIndex={1}>
                     {props.imageSrc && (<CardMedia component='img' src={'https://image.tmdb.org/t/p/w500' + props.imageSrc} height='100%' sx={{borderRadius: '10px', maxWidth: 'fit-content'}} />)}
                     {!customXL && <Typography 
                         variant="h4" 
@@ -80,17 +136,22 @@ const SearchItem = (props) => {
                         {truncateTitleLength(props.title)}
                         </Typography></Box> }
                 </Box>
-                <CardActions sx={{ marginLeft: 0, padding: 0, height: '100%'}}>
+                <CardActions sx={{ marginLeft: 0, padding: 0, height: '100%'}} zIndex={1}>
                     <Stack direction='column' justifyContent='space-between' height='100%'>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
+                            
                             <Typography variant="body" color='#FFFFFF' textAlign='center'>{props.rating}</Typography>
-                            <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} target="_blank"><ArrowOutwardIcon sx={{color: '#3F3F3F'}} /></IconButton>
+                            { date && (<Typography variant="body2" color='#5C5B5B' textAlign='center'>{date}</Typography>)}
                         </Box>
-                        <IconButton ><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                        <Box display='flex' justifyContent='center' flexDirection='column'>
+                            <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} target="_blank"><ArrowOutwardIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                            <IconButton ><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                        </Box>
                     </Stack>
                 </CardActions>
             </Box>
         </Card>
+        </>
     )
 }
 
