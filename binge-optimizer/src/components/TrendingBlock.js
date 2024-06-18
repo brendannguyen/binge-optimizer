@@ -43,7 +43,7 @@ const TrendingBlock = ({ setListItems, ...props }) => {
 
     const handleItemAdd = (index) => {
         setListItems(prevItems => {
-            if (!prevItems.includes(trendingItems[index])) return [...prevItems, trendingItems[index]];
+            if (!prevItems.some(item => item.id === trendingItems[index].id)) return [...prevItems, trendingItems[index]];
             else return prevItems;
         });
     };

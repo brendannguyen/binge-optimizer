@@ -32,7 +32,7 @@ const HomePage = () => {
                 <Grid md={4} lg={3} xl={customXL ? 2 : 3} height='100%'>
                     <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                         <TitleBlock/>
-                        <RecommendedBlock/>
+                        <RecommendedBlock items={listItems} setListItems={setListItems}/>
                     </Stack>
                 </Grid>
                 <Grid md={4} lg={6} xl={customXL ? 5: 6} height='100%' >

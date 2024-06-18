@@ -1,10 +1,19 @@
-import { Box, Card, IconButton, InputAdornment, Stack, TextField, Tooltip } from "@mui/material";
+import { Box, Card, IconButton, InputAdornment, Stack, TextField, ThemeProvider, Tooltip, createTheme } from "@mui/material";
 
 import SearchIcon from '@mui/icons-material/Search';
 import SearchItem from "./items/SearchItem";
 import { useEffect, useState } from "react";
 
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#A0153E',
+      },
+    },
+  });
+  
 
 const options = {
     method: 'GET',
@@ -41,7 +50,7 @@ const SearchBlock = ({ setListItems, ...props }) => {
 
     const handleItemAdd = (index) => {
         setListItems(prevItems => {
-            if (!prevItems.includes(searchItems[index])) return [...prevItems, searchItems[index]];
+            if (!prevItems.some(item => item.id === searchItems[index].id)) return [...prevItems, searchItems[index]];
             else return prevItems;
         });
     };
@@ -49,6 +58,7 @@ const SearchBlock = ({ setListItems, ...props }) => {
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column', minWidth: 'fit-content'}}>
             <Box padding='1.5em'>
+                <ThemeProvider theme={theme}>
                 <TextField 
                     variant='filled'
                     sx={{borderRadius: '10px', bgcolor: '#FFFFFF' }} 
@@ -64,6 +74,7 @@ const SearchBlock = ({ setListItems, ...props }) => {
                         )
                     }}
                 />
+                </ThemeProvider>
             </Box>
             <Box overflow='auto' marginBottom='1.5em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
