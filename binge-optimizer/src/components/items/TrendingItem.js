@@ -25,7 +25,7 @@ function truncateTitle(title, oneLine) {
     }
 };
 
-const TrendingItem = (props) => {
+const TrendingItem = ({ addItem, ...props }) => {
 
     let numWordsTitle = 0;
     if (props.title) {
@@ -145,7 +145,7 @@ const TrendingItem = (props) => {
                         </Box>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
                             <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} target="_blank"><ArrowOutwardIcon sx={{color: '#FFFFFF'}} /></IconButton>
-                            <IconButton ><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                            <IconButton onClick={() => addItem(props.index)}><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
                         </Box>
                     </Stack>
                 </CardActions>

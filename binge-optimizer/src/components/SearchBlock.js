@@ -40,7 +40,6 @@ const SearchBlock = ({ setListItems, ...props }) => {
     }, [totalPages]);
 
     const handleItemAdd = (index) => {
-        console.log(searchItems[index])
         setListItems(prevItems => {
             if (!prevItems.includes(searchItems[index])) return [...prevItems, searchItems[index]];
             else return prevItems;

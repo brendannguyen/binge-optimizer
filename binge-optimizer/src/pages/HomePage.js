@@ -13,11 +13,15 @@ import { useEffect, useState } from 'react';
 const HomePage = () => {
     const customXL = useMediaQuery('(min-width:1730px)');
 
-    const [listItems, setListItems] = useState([]);
+    // get local storage list or empty
+    const [listItems, setListItems] = useState(() => {
+        const savedListItems = localStorage.getItem('BO_listItems');
+        return savedListItems ? JSON.parse(savedListItems) : [];
+    });
     
-
+    // saved to local storage
     useEffect(() => {
-        console.log(listItems)
+        localStorage.setItem('BO_listItems', JSON.stringify(listItems));
     }, [listItems])
 
 
@@ -37,7 +41,7 @@ const HomePage = () => {
                         <DetailsBlock/>
                     </Stack>
                 </Grid>
-                <Grid lg={12} xl={customXL ? 2: 12} height={customXL ? '100%' : 'fit-content'}><TrendingBlock /></Grid>
+                <Grid lg={12} xl={customXL ? 2: 12} height={customXL ? '100%' : 'fit-content'}><TrendingBlock setListItems={setListItems} /></Grid>
             </Grid>
         </Box>
     )
