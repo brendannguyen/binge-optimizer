@@ -42,6 +42,7 @@ const SearchItem = (props) => {
 
     const customXL = useMediaQuery('(min-width:1730px)');
     const customXS = useMediaQuery('(max-width:330px)');
+    const mediumSize = useMediaQuery('(min-width:900px)');
 
     let date = null;
     if (props.release_date) date = props.release_date.split("-")[0];
@@ -67,6 +68,7 @@ const SearchItem = (props) => {
 
     return (
         <>
+        {mediumSize && 
         <Popover
             id="mouse-over-popover"
             sx={{
@@ -78,7 +80,7 @@ const SearchItem = (props) => {
                     justifyContent: 'center',
                     padding: '0.5em',
                     height: '155px',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                 },
             }}
             open={openPopover}
@@ -96,6 +98,7 @@ const SearchItem = (props) => {
         >
            <ExtendedItem type={props.type} id={props.id} />
         </Popover>
+        }
         <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', minWidth: '170px', height: '155px', borderRadius: '10px', width: '100%', position: 'relative', zIndex: 0 }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} >
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: `url(https://image.tmdb.org/t/p/original${props.backdropSrc})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 1s ease', opacity: isEnoughHover ? 0.2 : 0, zIndex: 0}} />
 
