@@ -28,7 +28,7 @@ const HomePage = () => {
                         <DetailsBlock/>
                     </Stack>
                 </Grid>
-                <Grid lg={12} xl={customXL ? 2: 12} height='100%' ><TrendingBlock /></Grid>
+                <Grid lg={12} xl={customXL ? 2: 12} height={customXL ? '100%' : 'fit-content'}><TrendingBlock /></Grid>
             </Grid>
         </Box>
     )
