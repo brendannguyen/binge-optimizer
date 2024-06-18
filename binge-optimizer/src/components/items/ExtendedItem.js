@@ -30,7 +30,7 @@ const ExtendedItem = (props) => {
     const [videoID, setVideoID] = useState(null);
 
     const _onReady = (event) => {
-        event.target.setVolume(20);
+        if (event.target) event.target.setVolume(20);
         setShow(false)
     }
 

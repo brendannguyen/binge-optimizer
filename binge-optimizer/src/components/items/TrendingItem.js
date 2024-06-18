@@ -3,7 +3,7 @@ import { Box, Card, CardActions, CardMedia, IconButton, Popover, Stack, Typograp
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ExtendedItem from "./ExtendedItem";
 
 function truncateTitle(title, oneLine) {
@@ -59,6 +59,22 @@ const TrendingItem = (props) => {
     }
     const cardRef = useRef(null);
     const [openPopover, setOpenPopover] = useState(false);
+
+        // double check mouse position
+    useEffect(() => {
+        window.addEventListener('mousemove', checkHover, true);
+        return () => {
+            window.removeEventListener('mousemove', checkHover, true);
+        }
+    })
+
+    // double check no longer hovering
+    const checkHover = (e) => {
+        if (cardRef.current) {
+            const mouseOver = cardRef.current.contains(e.target);
+            if (!mouseOver && isEnoughHover) handleHoverCancel();
+        }
+    }    
 
     return (
         <>
@@ -124,7 +140,7 @@ const TrendingItem = (props) => {
                     <Stack direction='column' justifyContent='space-between' height='100%'>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
                             
-                            <Typography variant="body" color='#FFFFFF' textAlign='center'>{props.rating}</Typography>
+                            <Typography variant="body" color='#FFFFFF' textAlign='center'>{props.rating.toFixed(2)}</Typography>
                             { date && (<Typography variant="body2" color='#5C5B5B' textAlign='center'>{date}</Typography>)}
                         </Box>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
