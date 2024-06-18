@@ -30,7 +30,7 @@ function truncateTitleLength(title) {
     return title;
 }
 
-const SearchItem = (props) => {
+const SearchItem = ({ addItem, ...props }) => {
 
     let numWordsTitle = 0;
     if (props.title) {
@@ -99,7 +99,7 @@ const SearchItem = (props) => {
            <ExtendedItem type={props.type} id={props.id} />
         </Popover>
         }
-        <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', minWidth: '170px', height: '155px', borderRadius: '10px', width: '100%', position: 'relative', zIndex: 0 }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} >
+        <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', minWidth: '180px', height: '155px', borderRadius: '10px', width: '100%', position: 'relative', zIndex: 0 }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} >
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: `url(https://image.tmdb.org/t/p/original${props.backdropSrc})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 1s ease', opacity: isEnoughHover ? 0.2 : 0, zIndex: 0}} />
 
             <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center' zIndex={1}>
@@ -148,7 +148,7 @@ const SearchItem = (props) => {
                         </Box>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
                             <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} target="_blank"><ArrowOutwardIcon sx={{color: '#FFFFFF'}} /></IconButton>
-                            <IconButton ><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                            <IconButton onClick={() => addItem(props.index)}><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
                         </Box>
                     </Stack>
                 </CardActions>

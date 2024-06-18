@@ -14,7 +14,7 @@ const options = {
     }
 };
 
-const SearchBlock = (props) => {
+const SearchBlock = ({ setListItems, ...props }) => {
 
     const [searchItems, setSearchItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -38,6 +38,14 @@ const SearchBlock = (props) => {
     useEffect(() => {
         fetchContent(true)
     }, [totalPages]);
+
+    const handleItemAdd = (index) => {
+        console.log(searchItems[index])
+        setListItems(prevItems => {
+            if (!prevItems.includes(searchItems[index])) return [...prevItems, searchItems[index]];
+            else return prevItems;
+        });
+    };
     
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column', minWidth: 'fit-content'}}>
@@ -60,8 +68,8 @@ const SearchBlock = (props) => {
             </Box>
             <Box overflow='auto' marginBottom='1.5em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
-                    {searchItems.map((item) => (
-                        <SearchItem  title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                    {searchItems.map((item, index) => (
+                        <SearchItem index={index} addItem={handleItemAdd} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                     ))}
                     {
                         (searchItems.length > 0) && <Tooltip title="Search More"><IconButton
