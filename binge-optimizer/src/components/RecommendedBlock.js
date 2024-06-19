@@ -11,7 +11,7 @@ const options = {
     }
 };
 
-const RecommendedBlock = ({setListItems, ...props}) => {
+const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
 
     const [recommendedItems, setRecommendedItems] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
@@ -60,6 +60,12 @@ const RecommendedBlock = ({setListItems, ...props}) => {
         });
     };
 
+    const handleItemShow = (index) => {
+        setCurrentShownItem(prevItem => {
+            if (!prevItem || prevItem.id !== recommendedItems[index].id) return recommendedItems[index];
+        })
+    }
+
     const sortItems = () => {
         setRecommendedItems(prevItems => {
             const sortedItems = [...prevItems].sort((a, b) => b.vote_average - a.vote_average);
@@ -73,7 +79,7 @@ const RecommendedBlock = ({setListItems, ...props}) => {
             <Box overflow='auto' marginBottom='1.5em' marginTop='1em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
                     {recommendedItems.map((item, index) => (
-                        <RecommendedItem index={index} addItem={handleItemAdd} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                        <RecommendedItem index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                     ))}
                     {
                         (recommendedItems.length > 0) && <Tooltip title="More Recommended"><IconButton

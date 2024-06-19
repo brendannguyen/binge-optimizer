@@ -25,9 +25,9 @@ const ExtendedItem = (props) => {
           mute: 0,
           loop: 1,
         }
-      };
+    };
 
-    const [videoID, setVideoID] = useState(null);
+    const [videoID, setVideoID] = useState('');
 
     const _onReady = (event) => {
         if (event.target) event.target.setVolume(20);
@@ -58,7 +58,7 @@ const ExtendedItem = (props) => {
     return (
         videoID && props.id ? (
         <Box bgcolor='transparent' sx={{opacity: show ? 1 : 0 , transition: 'opacity 2s ease'}} height='155px' borderRadius='10px'>
-            {videoID && <YouTube videoId={videoID} opts={videoOptions} volume={0.2} onReady={_onReady} onPlay={_onPlay} style={{borderRadius: '10px', overflow: 'hidden', height: '100%', boxShadow: '0px 0px 10px rgba(0, 0, 0, .5)'}}/> }
+            {videoID && <YouTube videoId={videoID} opts={videoOptions} onReady={_onReady} onPlay={_onPlay} style={{borderRadius: '10px', overflow: 'hidden', height: '100%', boxShadow: '0px 0px 10px rgba(0, 0, 0, .5)'}}/> }
         </Box>
         ) : <></>
     )

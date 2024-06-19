@@ -25,7 +25,7 @@ function truncateTitle(title, oneLine) {
     }
 };
 
-const ListItem = ({removeItem, ...props}) => {
+const ListItem = ({removeItem, showItem, ...props}) => {
     let numWordsTitle = 0;
     if (props.title) {
         let words = props.title.split(" ");
@@ -75,6 +75,7 @@ const ListItem = ({removeItem, ...props}) => {
         }
     }
     
+    var isShown = props.id && props.id === props.currentShownItemId;
 
     return (
         <>
@@ -110,7 +111,7 @@ const ListItem = ({removeItem, ...props}) => {
            <ExtendedItem type={props.type} id={props.id} />
         </Popover>
         }
-        <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', width: '180px', minWidth: '180px', height: '155px', borderRadius: '10px', position: 'relative', zIndex: 0 }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} >
+        <Card ref={cardRef} raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', width: '180px', minWidth: '180px', height: '155px', borderRadius: '10px', position: 'relative', zIndex: 0, border: isShown ? '3px solid #A0153E' : '' }}  onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel} onClick={() => showItem(props.id)}>
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: `url(https://image.tmdb.org/t/p/original${props.backdropSrc})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 1s ease', opacity: isEnoughHover ? 0.2 : 0, zIndex: 0}} />
 
             <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center' zIndex={1}>

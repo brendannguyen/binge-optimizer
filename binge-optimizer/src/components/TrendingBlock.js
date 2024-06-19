@@ -13,7 +13,7 @@ const options = {
     }
 };
 
-const TrendingBlock = ({ setListItems, ...props }) => {
+const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
     const customXL = useMediaQuery('(min-width:1730px)');
 
@@ -48,13 +48,19 @@ const TrendingBlock = ({ setListItems, ...props }) => {
         });
     };
 
+    const handleItemShow = (index) => {
+        setCurrentShownItem(prevItem => {
+            if (!prevItem || prevItem.id !== trendingItems[index].id) return trendingItems[index];
+        })
+    }
+
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
             <Typography variant="h6" textAlign='center' color='#FFFFFF' marginTop='1em'>TRENDING</Typography>
             <Box overflow='auto' marginBottom='1.5em' marginTop='1em' marginRight={customXL ? '' : '1.5em'} marginLeft={customXL ? '' : '1.5em'}>
                 <Stack direction= { customXL ? 'column' : 'row'} spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em' paddingLeft={customXL ? '' : '0'}>
                     {trendingItems.map((item, index) => (
-                            <TrendingItem index={index} addItem={handleItemAdd} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                            <TrendingItem index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                         ))}
                         {
                             (trendingItems.length > 0) && <Tooltip title="More Trending"><IconButton
