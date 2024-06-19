@@ -8,11 +8,11 @@ import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 const theme = createTheme({
     palette: {
-      primary: {
+        primary: {
         main: '#A0153E',
-      },
+        },
     },
-  });
+});
   
 
 const options = {

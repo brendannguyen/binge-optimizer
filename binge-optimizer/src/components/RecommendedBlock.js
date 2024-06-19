@@ -1,7 +1,7 @@
 import { Box, Card, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import RecommendedItem from "./items/RecommendedItem";
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const options = {
     method: 'GET',
@@ -16,6 +16,7 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     const [recommendedItems, setRecommendedItems] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [isInitialRender, setIsInitialRender] = useState(true);
+    const boxRef = useRef(null);
 
     const fetchRecommendations = async (reset) => {
         let page = totalPages;
@@ -38,8 +39,13 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
             });
 
             Promise.all(fetchPromises)
-            .then(() => sortItems());
+            .then(() => sortItems())
+            .then(() => scrollToTop());
         }
+    };
+
+    const scrollToTop = () => {
+        if (boxRef.current) boxRef.current.scrollTo({top: 0, behaviour: 'smooth'})
     };
 
     useEffect(() => {
@@ -76,7 +82,7 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column', minWidth: 'fit-content'}}>
             <Typography variant="h6" textAlign='center' color='#FFFFFF' marginTop='1em'>RECOMMENDED</Typography>
-            <Box overflow='auto' marginBottom='1.5em' marginTop='1em'>
+            <Box ref={boxRef} overflow='auto' marginBottom='1.5em' marginTop='1em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
                     {recommendedItems.map((item, index) => (
                         <RecommendedItem index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>

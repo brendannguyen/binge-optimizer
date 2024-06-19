@@ -21,8 +21,7 @@ const DetailsBlock = ({ setListItems, ...props }) => {
     const currentShownItem = props.currentShownItem;
 
     const [itemDetails, setItemDetails] = useState(null);
-    
-    const [itemWatchProviders, setItemWatchProviders] = useState([]);
+
     const [itemReviews, setItemReviews] = useState([]);
 
     const fetchDetails = async () => {
@@ -38,28 +37,6 @@ const DetailsBlock = ({ setListItems, ...props }) => {
                 })
             })
             .catch(err => console.error(err));
-
-            // // fetch actors
-            // fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}/credits?language=en-US`, options)
-            // .then(response => response.json())
-            // .then(response => {
-            //     setItemActors(prevItem => {
-            //         if (!prevItem || currentShownItem.id !== response.id) return response.cast;
-            //         else return prevItem;
-            //     })
-            // })
-            // .catch(err => console.error(err));
-
-            // // fetch watch providers
-            // fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}/watch/providers`, options)
-            // .then(response => response.json())
-            // .then(response => {
-            //     setItemWatchProviders(prevItem => {
-            //         if (!prevItem || currentShownItem.id !== response.id) return response.results;
-            //         else return prevItem;
-            //     })
-            // })
-            // .catch(err => console.error(err));
 
             // // fetch reviews
             // fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}/reviews?language=en-US&page=1`, options)
