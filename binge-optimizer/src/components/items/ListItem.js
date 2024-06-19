@@ -128,13 +128,11 @@ const ListItem = ({removeItem, showItem, ...props}) => {
                             transform: 'rotate(180deg)', 
                             wordBreak: 'break-word',
                             textAlign: 'left',
-                            ...(isTitleMany && !customXL) && {textAlignLast: 'right'},
-                            direction: (isTitleMany && !customXL) ? 'rtl' : 'ltr',
                             overflow: 'hidden',
                             height: '100%'
                         }}
                         >
-                        {truncateTitle(props.title, customXL).toUpperCase()}
+                        {truncateTitle(props.title, true).toUpperCase()}
                     </Typography>
                 </Box>
                 <CardActions sx={{ marginLeft: 0, padding: 0, height: '100%'}} zIndex={1}>
