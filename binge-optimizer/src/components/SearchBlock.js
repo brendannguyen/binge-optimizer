@@ -26,7 +26,11 @@ const options = {
 const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
     const [searchItems, setSearchItems] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(() => {
+        const savedSearchQuery = localStorage.getItem('BO_recentSearchQuery');
+        return savedSearchQuery ? JSON.parse(savedSearchQuery) : '';
+    });
+    const [isInitialRender, setIsInitialRender] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchContent = async (add) => {
@@ -45,7 +49,8 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
     }, [searchQuery]);
 
     useEffect(() => {
-        fetchContent(true)
+        if (!isInitialRender) fetchContent(true)
+        else setIsInitialRender(false);
     }, [totalPages]);
 
     const handleItemAdd = (index) => {
@@ -59,7 +64,12 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         setCurrentShownItem(prevItem => {
             if (!prevItem || prevItem.id !== searchItems[index].id) return searchItems[index];
         })
-    }
+    };
+
+    // saved to local storage
+    useEffect(() => {
+        localStorage.setItem('BO_recentSearchQuery', JSON.stringify(searchQuery));
+    }, [searchQuery])
     
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column', minWidth: 'fit-content'}}>
