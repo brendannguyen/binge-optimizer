@@ -1,4 +1,4 @@
-import { Box, Card, Stack, useMediaQuery } from "@mui/material";
+import { Box, Card, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import PosterBlock from "./details/PosterBlock";
 import DescriptionBlock from "./details/DescriptionBlock";
@@ -23,8 +23,6 @@ const DetailsBlock = ({ setListItems, ...props }) => {
     const [itemDetails, setItemDetails] = useState(null);
     const [itemDirector, setItemDirector] = useState(null);
     const [itemTrailers, setItemTrailers] = useState(null);
-
-    const [itemReviews, setItemReviews] = useState([]);
 
     const fetchDetails = async () => {
         if (currentShownItem) {
@@ -52,17 +50,6 @@ const DetailsBlock = ({ setListItems, ...props }) => {
                 })
             })
             .catch(err => console.error(err));
-
-            // // fetch reviews
-            // fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}/reviews?language=en-US&page=1`, options)
-            // .then(response => response.json())
-            // .then(response => {
-            //     setItemReviews(prevItem => {
-            //         if (!prevItem || currentShownItem.id !== response.id) return response.results;
-            //         else return prevItem;
-            //     })
-            // })
-            // .catch(err => console.error(err));
         }
     };
 

@@ -22,19 +22,22 @@ const ExtendedItem = (props) => {
           controls: 0,
           rel: 0,
           showinfo: 0,
-          mute: 0,
+          mute: 1,
           loop: 1,
         }
     };
 
     const [videoID, setVideoID] = useState('');
 
-    const _onReady = (event) => {
-        if (event.target) event.target.setVolume(20);
+    const _onReady = () => {
         setShow(false)
     }
 
-    const _onPlay = () => {
+    const _onPlay = (event) => {
+        if (event.target) {
+            event.target.setVolume(20);
+            event.target.unMute();
+        }
         setShow(true);
     }
 

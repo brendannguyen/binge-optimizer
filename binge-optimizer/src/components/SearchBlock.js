@@ -33,23 +33,28 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
     const [isInitialRender, setIsInitialRender] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
 
-    const fetchContent = async (add) => {
-        fetch(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&include_adult=false&language=en-US&page=${totalPages}`, options)
+    const fetchContent = async (reset) => {
+        let page = totalPages;
+        if (reset) {
+            page = 1;
+            setTotalPages(1);
+            setSearchItems([])
+        }
+        fetch(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&include_adult=false&language=en-US&page=${page}`, options)
         .then(response => response.json())
         .then(response => {
             const filteredItems = response.results.filter(item => item.media_type === 'tv' || item.media_type === 'movie');
-            if (add) setSearchItems(prevItems => [...prevItems, ...filteredItems]);
-            else setSearchItems(filteredItems);
+            setSearchItems(prevItems => [...prevItems, ...filteredItems]);
         })
         .catch(err => console.error(err));
     };
 
     useEffect(() => {
-        fetchContent(false)
+        fetchContent(true)
     }, [searchQuery]);
 
     useEffect(() => {
-        if (!isInitialRender) fetchContent(true)
+        if (!isInitialRender) fetchContent(false)
         else setIsInitialRender(false);
     }, [totalPages]);
 

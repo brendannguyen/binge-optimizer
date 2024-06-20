@@ -51,7 +51,6 @@ const WatchProvidersBlock = (props) => {
             .then(response => response.json())
             .then(response => {
                 setItemWatchProviders(prevItem => {
-                    console.log(response)
                     if (!prevItem || prevItem.id !== response.id) return response;
                     else return prevItem;
                 })
@@ -62,7 +61,6 @@ const WatchProvidersBlock = (props) => {
 
     useEffect(() => {
         fetchWatchProviders();
-        console.log(itemWatchProviders)
     }, [currentShownItem])
 
     const [region, setRegion] = useState(() => {
