@@ -74,11 +74,11 @@ const DetailsBlock = ({ setListItems, ...props }) => {
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', height: '100%', display: 'flex', flexDirection: 'column'}}>
             {currentShownItem ?
             <Box justifyContent='center' alignItems='center' width='100%' height='100%' maxHeight='100%' maxWidth='100%' marginTop='1.5em' marginBottom='1.5em' overflow='auto'>
-                <Grid container spacing='0' rowGap='1.5em' justifyContent='center' maxWidth='100%' marginLeft='1.5em' marginRight='1.5em'>
+                <Grid container spacing='1.5em' rowGap='0' justifyContent='center' maxWidth='100%' marginLeft='1.5em' marginRight='1.5em'>
                     <Grid md={12} lg={12} xl={12} height='fit-content' width='100%' ><Box display='flex' flexDirection='row' ><PosterBlock imageSrc={currentShownItem.poster_path}/><DescriptionBlock itemDetails={itemDetails} type={currentShownItem.media_type} itemDirector={itemDirector} itemTrailers={itemTrailers}/></Box></Grid>
                     <Grid md={12} lg={12} xl={12} height='fit-content' ><ActorsBlock currentShownItem={currentShownItem} /></Grid>
                     <Grid xl={customXL ? 6 : 6}><WatchProvidersBlock currentShownItem={currentShownItem}/></Grid>
-                    <Grid xl={customXL ? 6 : 6}><StatsBlock itemDetails={itemDetails}/></Grid>
+                    <Grid xl={customXL ? 6 : 6}><StatsBlock itemDetails={itemDetails} type={currentShownItem.media_type}/></Grid>
                     <Grid xl={customXL ? 12 : 12}><ReviewsBlock currentShownItem={currentShownItem}/></Grid>
                 </Grid>
             </Box>

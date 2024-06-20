@@ -80,8 +80,8 @@ const WatchProvidersBlock = (props) => {
     }, [region])
   
     return (
-        <Card raised sx={{bgcolor: '#2A2A2A', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, paddingLeft: '1.5em', paddingRight: '1.5em'}}>
-            <Box display='flex' flexDirection='row' alignItems='center'>
+        <Card raised sx={{bgcolor: '#2A2A2A', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, paddingLeft: '1.5em', paddingRight: '1.5em', height: '100%'}}>
+            <Box display='flex' flexDirection='row' alignItems='center' height='100%'>
                 <ThemeProvider theme={theme}>
                     <FormControl size="small" variant="filled" sx={{ m: 1, minWidth: 80, borderRadius: '10px', bgcolor: '#FFFFFF', height: 'fit-content', marginRight: '1.5em' }}>
                         <InputLabel id="demo-simple-select-autowidth-label">Region</InputLabel>
@@ -100,7 +100,7 @@ const WatchProvidersBlock = (props) => {
                         </Select>
                     </FormControl>
                 </ThemeProvider>
-                <Box overflow='auto' height='100%'  display='flex' alignItems='center' paddingBottom='1.5em' paddingTop='1.5em'>
+                <Box overflow='auto' height='100%'  display='flex' alignItems='center' >
                     <Stack direction='row' spacing='1em' >
                         {itemWatchProviders && itemWatchProviders.results[region] && itemWatchProviders.results[region].flatrate && itemWatchProviders.results[region].flatrate.map((watchProvider) => (
                             <WatchProviderItem imageSrc={watchProvider.logo_path}  watchProviderName={watchProvider.provider_name} />
