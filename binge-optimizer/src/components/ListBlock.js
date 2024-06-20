@@ -24,8 +24,8 @@ const ListBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
                 </Box>
                 <Box overflow='auto' height='100%'  display='flex' alignItems='center'>
                     <Stack direction='row' spacing='1.5em'>
-                        {props.items && props.items.map((item) => (
-                            <ListItem currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} removeItem={handleItemRemove} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                        {props.items && props.items.map((item, index) => (
+                            <ListItem key={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} removeItem={handleItemRemove} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                         ))}
                     </Stack>
                 </Box>

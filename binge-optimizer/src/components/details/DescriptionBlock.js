@@ -42,8 +42,8 @@ const DescriptionBlock = (props) => {
                     <Typography variant="h4" color='#FFFFFF' gutterBottom sx={{fontWeight: 500, textAlign: 'center'}}>{(itemDetails.title || itemDetails.name).toUpperCase()}</Typography>
                     <Stack direction='row' spacing='0.5em' justifyContent='center' marginBottom='0.5em'>
                         {
-                            itemDetails.genres.map((genre) => (
-                                <Chip label={genre.name} sx={{bgcolor: '#A0153E', color: '#FFFFFF'}}/>
+                            itemDetails.genres.map((genre, index) => (
+                                <Chip key={index} label={genre.name} sx={{bgcolor: '#A0153E', color: '#FFFFFF'}}/>
                             ))
                         }
                     </Stack>

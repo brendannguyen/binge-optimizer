@@ -60,7 +60,7 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
             <Box overflow='auto' marginBottom='1.5em' marginTop='1em' marginRight={customXL ? '' : '1.5em'} marginLeft={customXL ? '' : '1.5em'}>
                 <Stack direction= { customXL ? 'column' : 'row'} spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em' paddingLeft={customXL ? '' : '0'}>
                     {trendingItems.map((item, index) => (
-                            <TrendingItem index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                            <TrendingItem key={index} index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                         ))}
                         {
                             (trendingItems.length > 0) && <Tooltip title="More Trending"><IconButton

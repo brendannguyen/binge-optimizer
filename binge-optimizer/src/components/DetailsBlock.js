@@ -1,4 +1,4 @@
-import { Box, Card, useMediaQuery } from "@mui/material";
+import { Box, Card, IconButton, SvgIcon, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import PosterBlock from "./details/PosterBlock";
 import DescriptionBlock from "./details/DescriptionBlock";
@@ -7,6 +7,10 @@ import WatchProvidersBlock from "./details/WatchProvidersBlock";
 import StatsBlock from "./details/StatsBlock";
 import ReviewsBlock from "./details/ReviewsBlock";
 import { useEffect, useState } from "react";
+
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { ReactComponent as TMBDIcon} from '../assets/tmdb.svg';
 
 const options = {
     method: 'GET',
@@ -71,7 +75,21 @@ const DetailsBlock = ({ setListItems, ...props }) => {
                 </Grid>
             </Box>
             :
-            <Box></Box>
+            <Box height='100%'  justifyContent='center' alignItems='center' display='flex' padding='1.5em'>
+                <Card raised sx={{bgcolor: '#2A2A2A', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, paddingLeft: '1.5em', paddingRight: '1.5em', maxWidth: 'fit-content', maxHeight: 'fit-content'}} >
+                    <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' padding='1.5em'>
+                        <Typography variant="h4" textAlign='center' gutterBottom color='#A0153E'>BINGE OPTIMIZER</Typography>
+                        <Typography variant="body" textAlign='center' gutterBottom color='#FFFFFF'>Get recommendations based on your chosen list of movies and TV shows. Simple.</Typography>
+                        <Typography variant="body" textAlign='center' gutterBottom color='#5C5B5B'>This product uses the TMDB API but is not endorsed or certified by TMDB (watch provider data from JustWatch).</Typography>
+                        <Tooltip sx={{maxWidth: 'fit-content'}} title='TMDB'><IconButton  href={'https://www.themoviedb.org/'} target="_blank" ><SvgIcon component={TMBDIcon} inheritViewBox fontSize='large'/></IconButton></Tooltip>
+                        <Typography variant="h6" textAlign='center' gutterBottom color='#FFFFFF'>By: Brendan Nguyen</Typography>
+                        <Box display='flex' flexDirection='row'>
+                            <Tooltip sx={{maxWidth: 'fit-content'}} title='Portfolio Website'><IconButton  href={'https://brendannguyen.vercel.app/'} target="_blank"><OpenInNewIcon sx={{color: '#FFFFFF'}} /></IconButton></Tooltip>
+                            <Tooltip sx={{maxWidth: 'fit-content'}} title='GitHub'><IconButton  href={'https://github.com/brendannguyen/binge-optimizer'} target="_blank"><GitHubIcon sx={{color: '#FFFFFF'}} /></IconButton></Tooltip>
+                        </Box>
+                    </Box>
+                </Card>
+            </Box>
             }
         </Card>
     )

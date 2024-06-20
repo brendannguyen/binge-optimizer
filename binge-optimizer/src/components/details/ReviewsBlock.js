@@ -52,8 +52,8 @@ const ReviewsBlock = (props) => {
         <Card raised sx={{bgcolor: '#2A2A2A', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, paddingLeft: '1.5em', paddingRight: '1.5em'}}>
             <Box overflow='auto' height='100%'  display='flex' alignItems='center' paddingBottom='1.5em' paddingTop='1.5em'>
                 <Stack direction='row' spacing='1.5em' alignItems='center'>
-                    {itemReviews && itemReviews.map((review) => (
-                        <ReviewItem authorName={review.author} authorDetails={review.author_details} reviewContent={review.content} reviewUrl={review.url}/>
+                    {itemReviews && itemReviews.map((review, index) => (
+                        <ReviewItem key={index} authorName={review.author} authorDetails={review.author_details} reviewContent={review.content} reviewUrl={review.url}/>
                     ))}
                     {
                     (itemReviews && itemReviews.length > 0) && <Tooltip title="Search More" sx={{height: 'fit-content'}}><IconButton

@@ -93,15 +93,15 @@ const WatchProvidersBlock = (props) => {
                         >
                         <MenuItem value={region} sx={{bgcolor:'blue'}}>{region}</MenuItem>
                         {itemWatchProviders && Object.keys(itemWatchProviders.results).map(key => (
-                            key !== region && <MenuItem value={key}>{key}</MenuItem>
+                            key !== region && <MenuItem key={key} value={key}>{key}</MenuItem>
                         ))}
                         </Select>
                     </FormControl>
                 </ThemeProvider>
                 <Box overflow='auto' height='100%'  display='flex' alignItems='center' >
                     <Stack direction='row' spacing='1em' >
-                        {itemWatchProviders && itemWatchProviders.results[region] && itemWatchProviders.results[region].flatrate && itemWatchProviders.results[region].flatrate.map((watchProvider) => (
-                            <WatchProviderItem imageSrc={watchProvider.logo_path}  watchProviderName={watchProvider.provider_name} />
+                        {itemWatchProviders && itemWatchProviders.results[region] && itemWatchProviders.results[region].flatrate && itemWatchProviders.results[region].flatrate.map((watchProvider, index) => (
+                            <WatchProviderItem key={index} imageSrc={watchProvider.logo_path}  watchProviderName={watchProvider.provider_name} />
                         ))}
                     </Stack>
                 </Box>

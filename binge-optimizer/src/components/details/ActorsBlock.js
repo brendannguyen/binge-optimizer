@@ -46,8 +46,8 @@ const ActorsBlock = (props) => {
         <Card raised sx={{bgcolor: '#2A2A2A', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, paddingLeft: '1.5em', paddingRight: '1.5em'}}>
             <Box overflow='auto' height='100%'  display='flex' alignItems='center' paddingBottom='1.5em' paddingTop='1.5em'>
                 <Stack direction='row' spacing='1.5em' >
-                    {itemActors.map((actor) => (
-                        <ActorItem imageSrc={actor.profile_path} actorPop={actor.popularity} actorName={actor.name} actorId={actor.id}/>
+                    {itemActors.map((actor, index) => (
+                        <ActorItem key={index} imageSrc={actor.profile_path} actorPop={actor.popularity} actorName={actor.name} actorId={actor.id}/>
                     ))}
                 </Stack>
             </Box>

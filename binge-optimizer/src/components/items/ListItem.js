@@ -59,7 +59,7 @@ const ListItem = ({removeItem, showItem, ...props}) => {
     const cardRef = useRef(null);
     const [openPopover, setOpenPopover] = useState(false);
 
-        // double check mouse position
+    // double check mouse position
     useEffect(() => {
         window.addEventListener('mousemove', checkHover, true);
         return () => {

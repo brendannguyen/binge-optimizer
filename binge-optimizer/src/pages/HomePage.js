@@ -32,9 +32,10 @@ const HomePage = () => {
         return savedCurrentItem ? JSON.parse(savedCurrentItem) : null;
     });
 
-    // saved to local storage
+    // saved to local storage and remove from local storage
     useEffect(() => {
         if (currentShownItem) localStorage.setItem('BO_shownItem', JSON.stringify(currentShownItem));
+        else localStorage.removeItem('BO_shownItem');
     }, [currentShownItem])
 
     return (
