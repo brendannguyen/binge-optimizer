@@ -1,12 +1,40 @@
-import { Box, Card, CardActions, Chip, IconButton, Stack, SvgIcon, Typography, createSvgIcon } from "@mui/material";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Box, Card, CardActions, Chip, IconButton, Modal, Stack, SvgIcon, Typography, createSvgIcon } from "@mui/material";
+
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { useState } from "react";
 
 const DescriptionBlock = (props) => {
 
     const itemDetails = props.itemDetails;
+    const itemDirector = props.itemDirector;
+    const itemTrailers = props.itemTrailers;
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    function getRandomItem(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
 
     return(
+        <>
+        {(itemTrailers && itemTrailers.trailers.length > 0) && 
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="Content Trailer"
+            aria-describedby="Watch Content Trailer"
+        >
+            <Box sx={{bgcolor: '#2A2A2A', borderRadius: '10px', width: '25vw', minWidth: '300px', maxWidth: '25vw', padding: '0.5em', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', boxShadow: 24}}>
+            <div style={{width: '100%', minWidth: '300px', maxWidth: '25vw'}}>
+            <div style={{position: 'relative', width: '100%', overflow: 'hidden', paddingTop: '56.25%'}}>
+            <p><iframe style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: '100%', border: 'none', borderRadius: '10px'}} src={`https://www.youtube.com/embed/${getRandomItem(itemTrailers.trailers).key}`} width="560" height="315" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></p>
+            </div>
+            </div>
+            </Box>
+        </Modal>}
         <Card raised sx={{bgcolor: '#2A2A2A', padding: '0.5em', height: '310px', borderRadius: '10px', position: 'relative', zIndex: 0, flexGrow: 1, backgroundImage: itemDetails ? `url(https://image.tmdb.org/t/p/original${itemDetails.backdrop_path})` : '', backgroundBlendMode: 'overlay', backgroundPosition: 'center', backgroundSize: 'cover'}} >
             {itemDetails &&
             <Box width='100%' height='100%' textAlign='center' display='flex' flexDirection='column' justifyContent='space-between'>
@@ -20,14 +48,17 @@ const DescriptionBlock = (props) => {
                         }
                     </Stack>
                     <Typography variant="body" color='#FFFFFF' sx={{textAlign: 'center'}}>{itemDetails.overview}</Typography>
+                    {(itemDirector && itemDirector.director) && <Typography variant="h6" gutterBottom color='#FFFFFF' sx={{textAlign: 'center', fontSize: '', paddingTop: '0.5em'}}>Directed by: {itemDirector.director.name}</Typography>}
                 </Box>
                 <Stack direction='row' spacing='0.5em' justifyContent='center'>
                     <IconButton  href={`https://www.themoviedb.org/${props.type}/${itemDetails.id}`} target="_blank"><ArrowOutwardIcon fontSize="large" sx={{color: '#FFFFFF'}} /></IconButton>
                     {itemDetails.imdb_id && <IconButton  href={`https://www.imdb.com/title/${itemDetails.imdb_id}/`} target="_blank"><IMDBIcon fontSize="large"/></IconButton>}
+                    {(itemTrailers && itemTrailers.trailers.length > 0) && <IconButton  onClick={handleOpen} ><YouTubeIcon fontSize="large" sx={{color: '#FFFFFF'}} /></IconButton> }
                 </Stack>
             </Box>
             }
         </Card>
+        </>
     )
 }
 

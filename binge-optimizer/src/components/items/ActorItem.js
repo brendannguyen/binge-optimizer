@@ -1,7 +1,8 @@
-import { Box, Card, CardActions, CardMedia, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardMedia, IconButton, Popover, Stack, Typography, useMediaQuery } from "@mui/material";
 
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { useEffect, useRef, useState } from "react";
+import ActorExtendedItem from "./ActorExtendedItem";
 
 function truncateTitle(title) {
     let words = title.split(" ");
@@ -30,8 +31,69 @@ const ActorItem = (props) => {
     }
     let isNameMany = props.actorName && numWordsName > 1;
 
+    const mediumSize = useMediaQuery('(min-width:900px)');
+    const [isEnoughHover, setIsEnoughHover] = useState(false);
+    var timeoutId = null;
+    const handleHoverOver = () => {
+        timeoutId = setTimeout(function(){
+            setIsEnoughHover(true);
+            setOpenPopover(true);
+        }, 800)
+    }
+
+    const handleHoverCancel = () => {
+        clearTimeout(timeoutId);
+        setIsEnoughHover(false);
+        setOpenPopover(false);
+    }
+    const cardRef = useRef(null);
+    const [openPopover, setOpenPopover] = useState(false);
+
+        // double check mouse position
+    useEffect(() => {
+        window.addEventListener('mousemove', checkHover, true);
+        return () => {
+            window.removeEventListener('mousemove', checkHover, true);
+        }
+    })
+
+    // double check no longer hovering
+    const checkHover = (e) => {
+        if (cardRef.current) {
+            const mouseOver = cardRef.current.contains(e.target);
+            if (!mouseOver && isEnoughHover) handleHoverCancel();
+        }
+    }
+
     return (
-        <Card sx={{bgcolor: '#2A2A2A', padding: '0.5em', width: props.imageSrc ? '230px' : '130px', minWidth: props.imageSrc ? '230px' : '130px', height: '155px', borderRadius: '10px', position: 'relative', zIndex: 0}} elevation={0}>
+        <>
+        {mediumSize && 
+        <Popover
+            id="mouse-over-popover"
+            sx={{
+                pointerEvents: 'none',
+                justifyContent: 'center',
+                '.MuiPaper-root': {
+                    borderRadius: '10px',
+                    bgcolor: '#0E0E0E'
+                },
+            }}
+            open={openPopover}
+            anchorEl={cardRef.current}
+            anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'left',
+            }}
+            transformOrigin={{
+            vertical: 'center',
+            horizontal: 'top',
+            }}
+            disableRestoreFocus
+        >
+           <ActorExtendedItem id={props.actorId} />
+        </Popover>
+        }
+        <Card ref={cardRef} sx={{bgcolor: '#2A2A2A', padding: '0.5em', width: props.imageSrc ? '230px' : '130px', minWidth: props.imageSrc ? '230px' : '130px', height: '155px', borderRadius: '10px', position: 'relative', zIndex: 0}} elevation={0} onMouseEnter={handleHoverOver} onMouseLeave={handleHoverCancel}>
             <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center' zIndex={1}>
                 <Box display='flex' height='100%' width='100%' zIndex={1}>
                     {props.imageSrc && (<CardMedia component='img' src={'https://image.tmdb.org/t/p/w500' + props.imageSrc} height='100%' sx={{borderRadius: '10px', maxWidth: 'fit-content'}} />)}
@@ -67,6 +129,7 @@ const ActorItem = (props) => {
                 </CardActions>
             </Box>
         </Card>
+        </>
     )
 }
 

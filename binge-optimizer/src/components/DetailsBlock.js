@@ -21,18 +21,33 @@ const DetailsBlock = ({ setListItems, ...props }) => {
     const currentShownItem = props.currentShownItem;
 
     const [itemDetails, setItemDetails] = useState(null);
+    const [itemDirector, setItemDirector] = useState(null);
+    const [itemTrailers, setItemTrailers] = useState(null);
 
     const [itemReviews, setItemReviews] = useState([]);
 
     const fetchDetails = async () => {
         if (currentShownItem) {
-            // fetch details
-            fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}?language=en-US`, options)
+            // fetch details, credits, and videos
+            fetch(`https://api.themoviedb.org/3/${currentShownItem.media_type}/${currentShownItem.id}?append_to_response=credits%2Cvideos&language=en-US`, options)
             .then(response => response.json())
             .then(response => {
                 setItemDetails(prevItem => {
-                    console.log(response)
                     if (!prevItem || prevItem.id !== response.id) return response;
+                    else return prevItem;
+                })
+                setItemDirector(prevItem => {
+                    if (!prevItem || prevItem.id !== response.id) {
+                        const director = response.credits.crew.find(crewMember => crewMember.job === "Director");
+                        return {director: director, id: response.id};
+                    }
+                    else return prevItem;
+                })
+                setItemTrailers(prevItem => {
+                    if (!prevItem || prevItem.id !== response.id) {
+                        const videos = response.videos.results.filter(item => item.type === "Trailer");
+                        return {trailers: videos, id: response.id};
+                    }
                     else return prevItem;
                 })
             })
@@ -60,7 +75,7 @@ const DetailsBlock = ({ setListItems, ...props }) => {
             {currentShownItem ?
             <Box justifyContent='center' alignItems='center' width='100%' height='100%' maxHeight='100%' maxWidth='100%' marginTop='1.5em' marginBottom='1.5em' overflow='auto'>
                 <Grid container spacing='0' rowGap='1.5em' justifyContent='center' maxWidth='100%' marginLeft='1.5em' marginRight='1.5em'>
-                    <Grid md={12} lg={12} xl={12} height='fit-content' width='100%' ><Box display='flex' flexDirection='row' ><PosterBlock imageSrc={currentShownItem.poster_path}/><DescriptionBlock itemDetails={itemDetails} type={currentShownItem.media_type}/></Box></Grid>
+                    <Grid md={12} lg={12} xl={12} height='fit-content' width='100%' ><Box display='flex' flexDirection='row' ><PosterBlock imageSrc={currentShownItem.poster_path}/><DescriptionBlock itemDetails={itemDetails} type={currentShownItem.media_type} itemDirector={itemDirector} itemTrailers={itemTrailers}/></Box></Grid>
                     <Grid md={12} lg={12} xl={12} height='fit-content' ><ActorsBlock currentShownItem={currentShownItem} /></Grid>
                     <Grid xl={customXL ? 6 : 6}><WatchProvidersBlock currentShownItem={currentShownItem}/></Grid>
                     <Grid xl={customXL ? 6 : 6}><StatsBlock itemDetails={itemDetails}/></Grid>
