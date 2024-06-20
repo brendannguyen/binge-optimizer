@@ -26,16 +26,8 @@ function truncateTitle(title, oneLine) {
 };
 
 const ListItem = ({removeItem, showItem, ...props}) => {
-    let numWordsTitle = 0;
-    if (props.title) {
-        let words = props.title.split(" ");
-        words = words.filter(word => word !== "");
-        numWordsTitle = words.length
-    }
-    let isTitleMany = props.title && numWordsTitle > 1;
 
     const largeSize = useMediaQuery('(min-width:1200px)');
-    const customXL = useMediaQuery('(max-width:1730px)');
 
     let date = null;
     if (props.release_date) date = props.release_date.split("-")[0];
