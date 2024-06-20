@@ -34,7 +34,7 @@ const ListItem = ({removeItem, showItem, ...props}) => {
     }
     let isTitleMany = props.title && numWordsTitle > 1;
 
-    const mediumSize = useMediaQuery('(min-width:900px)');
+    const largeSize = useMediaQuery('(min-width:1200px)');
     const customXL = useMediaQuery('(max-width:1730px)');
 
     let date = null;
@@ -79,7 +79,7 @@ const ListItem = ({removeItem, showItem, ...props}) => {
 
     return (
         <>
-        {mediumSize && 
+        {largeSize && 
         <Popover
             id="mouse-over-popover"
             sx={{

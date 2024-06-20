@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 
 const HomePage = () => {
     const customXL = useMediaQuery('(min-width:1730px)');
+    const largeSize = useMediaQuery('(min-width:1200px)');
+    const smallSize = useMediaQuery('(min-width:600px)');
 
     // get local storage list or empty
     const [listItems, setListItems] = useState(() => {
@@ -38,14 +40,15 @@ const HomePage = () => {
     return (
         <Box justifyContent='center' alignItems='center' height='100vh' width='100vw' maxHeight='100vh' maxWidth='100vw'>
             <Grid container spacing='1.5em'  width='100%' height='100%' maxHeight='100%'  justifyContent='center' paddingLeft='1.5em' paddingTop='1.5em'>
-                <Grid md={4} lg={3} xl={customXL ? 3 : 3} height='100%'><SearchBlock setListItems={setListItems} currentShownItem={currentShownItem} setCurrentShownItem={setCurrentShownItem}/></Grid>
-                <Grid md={4} lg={3} xl={customXL ? 2 : 3} height='100%'>
+                {!smallSize && <Grid xs={12} alignItems='center'><TitleBlock/></Grid>}
+                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 3 : 3} height= {largeSize ? '100%' : '50%'} minHeight='325px'><SearchBlock setListItems={setListItems} currentShownItem={currentShownItem} setCurrentShownItem={setCurrentShownItem}/></Grid>
+                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 2 : 3} height= {largeSize ? '100%' : '50%'} minHeight='325px'>
                     <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                        <TitleBlock/>
+                        {smallSize && <TitleBlock/>}
                         <RecommendedBlock items={listItems} currentShownItem={currentShownItem} setListItems={setListItems} setCurrentShownItem={setCurrentShownItem} />
                     </Stack>
                 </Grid>
-                <Grid md={4} lg={6} xl={customXL ? 5: 6} height='100%' >
+                <Grid md={12} lg={6} xl={customXL ? 5: 6} height='100%' minHeight='650px'>
                     <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                         <ListBlock items={listItems} setListItems={setListItems} currentShownItem={currentShownItem} setCurrentShownItem={setCurrentShownItem} />
                         <DetailsBlock items={listItems} currentShownItem={currentShownItem} setListItems={setListItems}/>

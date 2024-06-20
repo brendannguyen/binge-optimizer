@@ -25,6 +25,11 @@ function truncateTitle(title, oneLine) {
     }
 };
 
+function truncateTitleLength(title) {
+    if (title.length > 100) return title.substring(0, 100) + '...';
+    return title;
+}
+
 const TrendingItem = ({ addItem, showItem, ...props }) => {
 
     let numWordsTitle = 0;
@@ -35,8 +40,9 @@ const TrendingItem = ({ addItem, showItem, ...props }) => {
     }
     let isTitleMany = props.title && numWordsTitle > 1;
 
-    const mediumSize = useMediaQuery('(min-width:900px)');
+    const largeSize = useMediaQuery('(min-width:1200px)');
     const customXL = useMediaQuery('(max-width:1730px)');
+    const customXXL = useMediaQuery('(min-width:3500px)');
 
     let date = null;
     if (props.release_date) date = props.release_date.split("-")[0];
@@ -80,7 +86,7 @@ const TrendingItem = ({ addItem, showItem, ...props }) => {
 
     return (
         <>
-        {mediumSize && 
+        {largeSize && 
         <Popover
             id="mouse-over-popover"
             sx={{
@@ -118,7 +124,7 @@ const TrendingItem = ({ addItem, showItem, ...props }) => {
             <Box display='flex' flexDirection='row' justifyContent='space-between' maxWidth='100%' height='100%' alignItems='center' zIndex={1}>
                 <Box display='flex' height='100%' width='100%' zIndex={1}>
                     {props.imageSrc && (<CardMedia component='img' src={'https://image.tmdb.org/t/p/w500' + props.imageSrc} height='100%' sx={{borderRadius: '10px', maxWidth: 'fit-content'}} />)}
-                    <Typography 
+                    {!customXXL && <Typography 
                         variant="h4" 
                         color='#FFFFFF'
                         gutterBottom 
@@ -136,7 +142,21 @@ const TrendingItem = ({ addItem, showItem, ...props }) => {
                         }}
                         >
                         {truncateTitle(props.title, customXL).toUpperCase()}
-                    </Typography>
+                    </Typography> }
+                    {customXXL && <Box paddingLeft='0.5em' paddingRight='0.5em' width='100%' alignItems='center' justifyContent='center' display='flex'><Typography 
+                        variant="h6" 
+                        color='#FFFFFF' 
+                        sx={{
+                            fontWeight: 500,
+                            textAlign: 'center',
+                            overflow: 'auto',
+                            maxWidth: '350px',
+                            maxHeight: '100%',
+                            wordWrap: 'break-word',
+                        }}
+                        >
+                        {truncateTitleLength(props.title)}
+                        </Typography></Box> }
                 </Box>
                 <CardActions sx={{ marginLeft: 0, padding: 0, height: '100%'}} zIndex={1}>
                     <Stack direction='column' justifyContent='space-between' height='100%'>

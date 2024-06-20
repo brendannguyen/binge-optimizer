@@ -42,7 +42,7 @@ const SearchItem = ({ addItem, showItem, ...props }) => {
 
     const customXL = useMediaQuery('(min-width:1730px)');
     const customXS = useMediaQuery('(max-width:330px)');
-    const mediumSize = useMediaQuery('(min-width:900px)');
+    const largeSize = useMediaQuery('(min-width:1200px)');
 
     let date = null;
     if (props.release_date) date = props.release_date.split("-")[0];
@@ -87,7 +87,7 @@ const SearchItem = ({ addItem, showItem, ...props }) => {
 
     return (
         <>
-        {mediumSize && 
+        {largeSize && 
         <Popover
             id="mouse-over-popover"
             sx={{

@@ -31,7 +31,7 @@ const ActorItem = (props) => {
     }
     let isNameMany = props.actorName && numWordsName > 1;
 
-    const mediumSize = useMediaQuery('(min-width:900px)');
+    const largeSize = useMediaQuery('(min-width:1200px)');
     const [isEnoughHover, setIsEnoughHover] = useState(false);
     var timeoutId = null;
     const handleHoverOver = () => {
@@ -67,7 +67,7 @@ const ActorItem = (props) => {
 
     return (
         <>
-        {mediumSize && 
+        {largeSize && 
         <Popover
             id="mouse-over-popover"
             sx={{
