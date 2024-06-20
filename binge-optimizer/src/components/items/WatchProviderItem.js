@@ -1,4 +1,4 @@
-import { Box, Card, CardActions, CardMedia, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, CardMedia, Typography } from "@mui/material";
 
 function truncateTitle(title) {
     let words = title.split(" ");

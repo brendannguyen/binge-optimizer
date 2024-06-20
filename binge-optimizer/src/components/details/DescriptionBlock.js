@@ -1,4 +1,4 @@
-import { Box, Card, CardActions, Chip, IconButton, Modal, Stack, SvgIcon, Typography, createSvgIcon } from "@mui/material";
+import { Box, Card, Chip, IconButton, Modal, Stack, Typography, createSvgIcon } from "@mui/material";
 
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
