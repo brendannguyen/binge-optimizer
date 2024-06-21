@@ -1,5 +1,7 @@
-import { Box, Card, Stack, Typography } from "@mui/material";
+import { Box, Card, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import ListItem from "./items/ListItem";
+
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 const ListBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
@@ -8,6 +10,13 @@ const ListBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
             return prevItems.filter(prevItem => prevItem.id !== id)
         });
     };
+
+    const handleClearItems = () => {
+        setListItems(prevItems => {
+            if (!prevItems || prevItems.length > 0) return [];
+            return prevItems;
+        })
+    }
 
     const handleItemShow = (id) => {
         setCurrentShownItem(prevItem => {
@@ -18,9 +27,10 @@ const ListBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', height: '25%', minHeight: '200px', borderRadius: '10px', width: '100%'}}>
-            <Box overflow='auto' height='100%' marginRight='1.5em' display='flex' alignItems='center' >
-                <Box sx={{ display: 'flex', transform: 'rotate(-90deg)'}}>
-                    <Typography variant="h6" color='#FFFFFF' width='max-content' marginLeft='-0.5em' marginRight='-0.5em'>YOUR LIST</Typography>
+            <Box overflow='auto' height='100%' marginRight='1.5em' display='flex' alignItems='center'>
+                <Box sx={{ display: 'flex', transform: 'rotate(-90deg)', marginLeft: '-0.5em', marginRight: '-0.5em'}} alignItems='center'>
+                    {(props.items && props.items.length > 0) && <Tooltip title='Clear All'><IconButton onClick={handleClearItems} sx={{ transform: 'rotate(90deg)', padding: 0, marginRight: '0.5em'}}><ClearAllIcon sx={{color: "#FFFFFF"}}/></IconButton></Tooltip>}
+                    <Typography variant="h6" color='#FFFFFF' width='max-content'>YOUR LIST</Typography>
                 </Box>
                 <Box overflow='auto' height='100%'  display='flex' alignItems='center'>
                     <Stack direction='row' spacing='1.5em'>
