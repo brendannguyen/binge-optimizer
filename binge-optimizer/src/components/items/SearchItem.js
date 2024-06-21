@@ -166,8 +166,11 @@ const SearchItem = ({ addItem, showItem, ...props }) => {
                             { date && (<Typography variant="body2" color='#5C5B5B' textAlign='center'>{date}</Typography>)}
                         </Box>
                         <Box display='flex' justifyContent='center' flexDirection='column'>
-                            <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} target="_blank"><ArrowOutwardIcon sx={{color: '#FFFFFF'}} /></IconButton>
-                            <IconButton onClick={() => addItem(props.index)}><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                            <IconButton  href={`https://www.themoviedb.org/${props.type}/${props.id}`} onClick={(event) => event.stopPropagation()} target="_blank"><ArrowOutwardIcon sx={{color: '#FFFFFF'}} /></IconButton>
+                            <IconButton onClick={(event) => {
+                                event.stopPropagation();
+                                addItem(props.index)
+                            }}><AddCircleOutlineIcon sx={{color: '#FFFFFF'}} /></IconButton>
                         </Box>
                     </Stack>
                 </CardActions>
