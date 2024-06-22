@@ -48,7 +48,6 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     const [totalPages, setTotalPages] = useState(1);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const boxRef = useRef(null);
-    const itemsFirstRender = useRef(true);
 
     const fetchRecommendations = async (reset) => {
         let page = totalPages;
@@ -81,8 +80,7 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     };
 
     useEffect(() => {
-        if (itemsFirstRender.current) itemsFirstRender.current = false;
-        else fetchRecommendations(true);
+        fetchRecommendations(true);
     }, [props.items]);
 
     useEffect(() => {

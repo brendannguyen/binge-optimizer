@@ -58,7 +58,6 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         const savedTimeWindow = localStorage.getItem('BO_trendingTimeWindow');
         return savedTimeWindow ? JSON.parse(savedTimeWindow) : 'week';
     });
-    const timeWindowInitialRender = useRef(true);
 
     // saved to local storage
     useEffect(() => {
@@ -84,6 +83,7 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         fetch(`https://api.themoviedb.org/3/trending/all/${timeWindow}?language=en-US&page=${page}`, options)
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             const filteredItems = response.results.filter(item => item.media_type === 'tv' || item.media_type === 'movie');
             reset ? setTrendingItems(filteredItems) : setTrendingItems(prevItems => [...prevItems, ...filteredItems]);
         })
@@ -92,8 +92,7 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
 
     useEffect(() => {
-        if (timeWindowInitialRender.current) timeWindowInitialRender.current = false;
-        else fetchContent(true)
+        fetchContent(true)
     }, [timeWindow]);
 
     useEffect(() => {
