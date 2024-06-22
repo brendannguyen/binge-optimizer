@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { ReactComponent as TMBDIcon} from '../assets/tmdb.svg';
 
 const options = {
@@ -85,6 +86,7 @@ const DetailsBlock = ({ setListItems, ...props }) => {
                         <Typography variant="h6" textAlign='center' gutterBottom color='#FFFFFF'>By: Brendan Nguyen</Typography>
                         <Box display='flex' flexDirection='row'>
                             <Tooltip sx={{maxWidth: 'fit-content'}} title='Portfolio Website'><IconButton  href={'https://brendannguyen.vercel.app/'} target="_blank"><OpenInNewIcon sx={{color: '#FFFFFF'}} /></IconButton></Tooltip>
+                            <Tooltip sx={{maxWidth: 'fit-content'}} title='Buy Me A Coffee'><IconButton  href={'https://buymeacoffee.com/brendannguyen'} target="_blank"><VolunteerActivismIcon sx={{color: '#FFFFFF'}} /></IconButton></Tooltip>
                             <Tooltip sx={{maxWidth: 'fit-content'}} title='GitHub'><IconButton  href={'https://github.com/brendannguyen/binge-optimizer'} target="_blank"><GitHubIcon sx={{color: '#FFFFFF'}} /></IconButton></Tooltip>
                         </Box>
                     </Box>
