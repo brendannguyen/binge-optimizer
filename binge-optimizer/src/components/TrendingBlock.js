@@ -1,9 +1,11 @@
-import { Box, Card, IconButton, Stack, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Box, Card, IconButton, Menu, MenuItem, Stack, ThemeProvider, Tooltip, Typography, createTheme, useMediaQuery } from "@mui/material";
 
 
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import { useEffect, useState } from "react";
 import TrendingItem from "./items/TrendingItem";
+
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const options = {
     method: 'GET',
@@ -13,6 +15,36 @@ const options = {
     }
 };
 
+const theme = createTheme({
+    palette: {
+        primary: {
+        main: '#A0153E',
+        },
+    },
+    components: {
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    backgroundColor: '#2A2A2A',
+                    maxHeight: '200px'  
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    color: '#FFFFFF',
+                    backgroundColor: '#2A2A2A',
+                    '&.Mui-selected': {
+                    backgroundColor: '#A0153E', 
+                    },
+                },
+            },
+        },
+    },
+});
+
+
 const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
     const customXL = useMediaQuery('(min-width:1730px)');
@@ -21,23 +53,50 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [isInitialRender, setIsInitialRender] = useState(true);
 
-    const fetchContent = async (add) => {
-        fetch(`https://api.themoviedb.org/3/trending/all/week?language=en-US&page=${totalPages}`, options)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [timeWindow, setTimeWindow] = useState(() => {
+        const savedTimeWindow = localStorage.getItem('BO_trendingTimeWindow');
+        return savedTimeWindow ? JSON.parse(savedTimeWindow) : 'week';
+    });
+
+    // saved to local storage
+    useEffect(() => {
+        localStorage.setItem('BO_trendingTimeWindow', JSON.stringify(timeWindow));
+    }, [timeWindow])
+
+    const handleTimeWindowChange = (value) => {
+        if (timeWindow !== value) setTimeWindow(value);
+        setAnchorEl(null);
+    };
+
+    const handleTimeWindowButtonClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const fetchContent = async (reset) => {
+        let page = totalPages;
+        if (reset) {
+            page = 1;
+            setIsInitialRender(true);
+            setTrendingItems([]);
+            setTotalPages(1);
+        }
+        fetch(`https://api.themoviedb.org/3/trending/all/${timeWindow}?language=en-US&page=${page}`, options)
         .then(response => response.json())
         .then(response => {
             const filteredItems = response.results.filter(item => item.media_type === 'tv' || item.media_type === 'movie');
-            if (add) setTrendingItems(prevItems => [...prevItems, ...filteredItems]);
-            else setTrendingItems(filteredItems);
+            reset ? setTrendingItems(filteredItems) : setTrendingItems(prevItems => [...prevItems, ...filteredItems]);
         })
         .catch(err => console.error(err));
     };
 
-    useEffect(() => {
-        fetchContent(false)
-    }, []);
 
     useEffect(() => {
-        if (!isInitialRender) fetchContent(true)
+        fetchContent(true)
+    }, [timeWindow]);
+
+    useEffect(() => {
+        if (!isInitialRender) fetchContent(false)
         else setIsInitialRender(false);
     }, [totalPages]);
 
@@ -56,7 +115,21 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
     return (
         <Card raised sx={{bgcolor: '#1E1E1E', '&:hover': {bgcolor: '#151515'}, transition: 'background-color 1s', borderRadius: '10px', width:  '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
-            <Typography variant="h6" textAlign='center' color='#FFFFFF' marginTop='1em'>TRENDING</Typography>
+            <Box display='flex' flexDirection='row'  justifyContent='center'>
+                <Typography variant="h6" textAlign='center' color='#FFFFFF' marginTop='1em'>TRENDING</Typography>
+                {(trendingItems && trendingItems.length > 0) && <Tooltip title='Time Window'><IconButton onClick={handleTimeWindowButtonClick} sx={{padding: 0, marginTop: '1em', marginLeft: '0.5em', height: 'fit-content'}}><AccessTimeIcon sx={{color: "#FFFFFF"}}/></IconButton></Tooltip>}
+            </Box>
+            <ThemeProvider theme={theme}>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={() => handleTimeWindowChange(timeWindow)}
+                    >
+                        <MenuItem onClick={() => handleTimeWindowChange(timeWindow)} sx={{bgcolor: '#A0153E'}}>{timeWindow.charAt(0).toUpperCase() + timeWindow.slice(1)}</MenuItem>
+                        {(timeWindow !== 'day') && <MenuItem onClick={() => handleTimeWindowChange('day')}>Day</MenuItem>}
+                        {(timeWindow !== 'week') && <MenuItem onClick={() => handleTimeWindowChange('week')}>Week</MenuItem> }
+                    </Menu>
+            </ThemeProvider>
             <Box overflow='auto' marginBottom='1.5em' marginTop='1em' marginRight={customXL ? '' : '1.5em'} marginLeft={customXL ? '' : '1.5em'}>
                 <Stack direction= { customXL ? 'column' : 'row'} spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em' paddingLeft={customXL ? '' : '0'}>
                     {trendingItems.map((item, index) => (

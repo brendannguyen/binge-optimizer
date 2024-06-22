@@ -42,8 +42,8 @@ const HomePage = () => {
         <Box justifyContent='center' alignItems='center' height='100vh' width='100vw' maxHeight='100vh' maxWidth='100vw'>
             <Grid container spacing='1.5em'  width='100%' height='100%' maxHeight='100%'  justifyContent='center' paddingLeft='1.5em' paddingTop='1.5em'>
                 {!smallSize && <Grid xs={12} alignItems='center'><TitleBlock/></Grid>}
-                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 3 : 3} height= {largeSize ? '100%' : '50%'} minHeight='325px'><SearchBlock setListItems={setListItems} currentShownItem={currentShownItem} setCurrentShownItem={setCurrentShownItem}/></Grid>
-                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 2 : 3} height= {largeSize ? '100%' : '50%'} minHeight='325px'>
+                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 3 : 3} height= {largeSize ? '100%' : '50%'} minHeight='350px'><SearchBlock setListItems={setListItems} currentShownItem={currentShownItem} setCurrentShownItem={setCurrentShownItem}/></Grid>
+                <Grid xs={12} sm={6} md={6} lg={3} xl={customXL ? 2 : 3} height= {largeSize ? '100%' : '50%'} minHeight='350px'>
                     <Stack direction='column' spacing='1.5em' sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                         {smallSize && <TitleBlock/>}
                         <RecommendedBlock items={listItems} currentShownItem={currentShownItem} setListItems={setListItems} setCurrentShownItem={setCurrentShownItem} />

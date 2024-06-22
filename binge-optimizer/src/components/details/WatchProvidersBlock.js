@@ -91,7 +91,7 @@ const WatchProvidersBlock = (props) => {
                         autoWidth
                         label="Region"
                         >
-                        <MenuItem value={region} sx={{bgcolor:'blue'}}>{region}</MenuItem>
+                        <MenuItem value={region}>{region}</MenuItem>
                         {itemWatchProviders && Object.keys(itemWatchProviders.results).map(key => (
                             key !== region && <MenuItem key={key} value={key}>{key}</MenuItem>
                         ))}
