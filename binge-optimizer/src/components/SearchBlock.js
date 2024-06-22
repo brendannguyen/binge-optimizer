@@ -67,6 +67,7 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         let page = totalPages;
         if (reset) {
             page = 1;
+            setIsInitialRender(true);
             setTotalPages(1);
         }
         fetch(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&include_adult=false&language=en-US&page=${page}`, options)
@@ -83,7 +84,7 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
     }, [searchQuery]);
 
     useEffect(() => {
-        if (!isInitialRender && totalPages !== 1) fetchContent(false)
+        if (!isInitialRender) fetchContent(false)
         else setIsInitialRender(false);
     }, [totalPages]);
 
