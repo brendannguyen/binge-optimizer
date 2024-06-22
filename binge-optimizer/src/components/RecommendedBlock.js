@@ -1,4 +1,4 @@
-import { Box, Card, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, ThemeProvider, Tooltip, Typography, createTheme } from "@mui/material";
+import { Box, Card, IconButton, Menu, MenuItem, Stack, ThemeProvider, Tooltip, Typography, createTheme } from "@mui/material";
 import RecommendedItem from "./items/RecommendedItem";
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import { useEffect, useRef, useState } from "react";
@@ -48,12 +48,12 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     const [totalPages, setTotalPages] = useState(1);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const boxRef = useRef(null);
+    const itemsFirstRender = useRef(true);
 
     const fetchRecommendations = async (reset) => {
         let page = totalPages;
         if (reset) {
             page = 1;
-            setIsInitialRender(true);
             setRecommendedItems([]);
             setTotalPages(1);
         }
@@ -81,11 +81,12 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
     };
 
     useEffect(() => {
-        fetchRecommendations(true);
+        if (itemsFirstRender.current) itemsFirstRender.current = false;
+        else fetchRecommendations(true);
     }, [props.items]);
 
     useEffect(() => {
-        if (!isInitialRender) {
+        if (!isInitialRender && totalPages !== 1) {
             fetchRecommendations(false);
         }
         else setIsInitialRender(false);

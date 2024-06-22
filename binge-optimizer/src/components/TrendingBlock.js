@@ -2,7 +2,7 @@ import { Box, Card, IconButton, Menu, MenuItem, Stack, ThemeProvider, Tooltip, T
 
 
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TrendingItem from "./items/TrendingItem";
 
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -58,6 +58,7 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         const savedTimeWindow = localStorage.getItem('BO_trendingTimeWindow');
         return savedTimeWindow ? JSON.parse(savedTimeWindow) : 'week';
     });
+    const timeWindowInitialRender = useRef(true);
 
     // saved to local storage
     useEffect(() => {
@@ -77,7 +78,6 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
         let page = totalPages;
         if (reset) {
             page = 1;
-            setIsInitialRender(true);
             setTrendingItems([]);
             setTotalPages(1);
         }
@@ -92,11 +92,12 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
 
 
     useEffect(() => {
-        fetchContent(true)
+        if (timeWindowInitialRender.current) timeWindowInitialRender.current = false;
+        else fetchContent(true)
     }, [timeWindow]);
 
     useEffect(() => {
-        if (!isInitialRender) fetchContent(false)
+        if (!isInitialRender && totalPages !== 1) fetchContent(false)
         else setIsInitialRender(false);
     }, [totalPages]);
 
