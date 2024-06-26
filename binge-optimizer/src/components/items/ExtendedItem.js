@@ -46,7 +46,9 @@ const ExtendedItem = (props) => {
         .then(response => response.json())
         .then(response => {
             if (response.results && response.results.length > 0) {
-                setVideoID(response.results[0].key)
+                let firstTrailer = response.results.find(item => item.type === 'Trailer');
+                if (firstTrailer) setVideoID(firstTrailer.key)
+                else setVideoID(response.results[0].key)
             }
         })
         .catch(err => console.error(err));
