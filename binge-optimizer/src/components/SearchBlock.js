@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, InputAdornment, Menu, MenuItem, Stack, TextField, ThemeProvider, Tooltip, createTheme } from "@mui/material";
+import { Box, Card, IconButton, InputAdornment, Menu, MenuItem, Skeleton, Stack, TextField, ThemeProvider, Tooltip, createTheme } from "@mui/material";
 
 import SearchIcon from '@mui/icons-material/Search';
 import SearchItem from "./items/SearchItem";
@@ -156,8 +156,15 @@ const SearchBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
             </Box>
             <Box overflow='auto' marginBottom='1.5em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
-                    {searchItems.filter(item => mediaType === 'any' || item.media_type === mediaType).map((item, index) => (
-                        <SearchItem key={index} index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                    {(searchItems.length === 0) &&
+                        <>
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#2A2A2A'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#232323'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#1E1E1E'}} />
+                        </>
+                    }
+                    {searchItems.map((item, index) => ({...item, originalIndex: index})).filter(item => mediaType === 'any' || item.media_type === mediaType).map((item, index) => (
+                        <SearchItem key={index} index={item.originalIndex} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                     ))}
                     {
                         (searchItems.length > 0) && <Tooltip title="Search More"><IconButton

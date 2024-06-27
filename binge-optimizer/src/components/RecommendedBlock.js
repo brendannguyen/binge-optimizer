@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Menu, MenuItem, Stack, ThemeProvider, Tooltip, Typography, createTheme } from "@mui/material";
+import { Box, Card, IconButton, Menu, MenuItem, Skeleton, Stack, ThemeProvider, Tooltip, Typography, createTheme } from "@mui/material";
 import RecommendedItem from "./items/RecommendedItem";
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import { useEffect, useRef, useState } from "react";
@@ -142,8 +142,15 @@ const RecommendedBlock = ({setListItems, setCurrentShownItem, ...props}) => {
             </ThemeProvider>
             <Box ref={boxRef} overflow='auto' marginBottom='1.5em' marginTop='1em'>
                 <Stack  direction='column' spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em'>
-                    {recommendedItems.filter(item => mediaType === 'any' || item.media_type === mediaType).map((item, index) => (
-                        <RecommendedItem key={index} index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
+                    {(recommendedItems.length === 0) &&
+                        <>
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#2A2A2A'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#232323'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#1E1E1E'}} />
+                        </>
+                    }
+                    {recommendedItems.map((item, index) => ({...item, originalIndex: index})).filter(item => mediaType === 'any' || item.media_type === mediaType).map((item, index) => (
+                        <RecommendedItem key={index} index={item.originalIndex} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                     ))}
                     {
                         (recommendedItems.length > 0) && <Tooltip title="More Recommended"><IconButton

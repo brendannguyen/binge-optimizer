@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Card, IconButton, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 import ListItem from "./items/ListItem";
 
 import ClearAllIcon from '@mui/icons-material/ClearAll';
@@ -34,6 +34,13 @@ const ListBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
                 </Box>
                 <Box overflow='auto' height='100%'  display='flex' alignItems='center'>
                     <Stack direction='row' spacing='1.5em'>
+                        {(!props.items || props.items.length === 0) &&
+                            <>
+                            <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#2A2A2A'}} />
+                            <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#232323'}} />
+                            <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#1E1E1E'}} />
+                            </>
+                        }
                         {props.items && props.items.map((item, index) => (
                             <ListItem key={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} removeItem={handleItemRemove} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                         ))}

@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Menu, MenuItem, Stack, ThemeProvider, Tooltip, Typography, createTheme, useMediaQuery } from "@mui/material";
+import { Box, Card, IconButton, Menu, MenuItem, Skeleton, Stack, ThemeProvider, Tooltip, Typography, createTheme, useMediaQuery } from "@mui/material";
 
 
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
@@ -132,6 +132,13 @@ const TrendingBlock = ({ setListItems, setCurrentShownItem, ...props }) => {
             </ThemeProvider>
             <Box overflow='auto' marginBottom='1.5em' marginTop='1em' marginRight={customXL ? '' : '1.5em'} marginLeft={customXL ? '' : '1.5em'}>
                 <Stack direction= { customXL ? 'column' : 'row'} spacing='1.5em' marginTop='-2em' alignItems='center' padding='2em' paddingLeft={customXL ? '' : '0'}>
+                    {(trendingItems.length === 0) &&
+                        <>
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#2A2A2A'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#232323'}} />
+                        <Skeleton variant="rounded" width='100%' height='155px' animation='wave' sx={{minWidth: '180px', borderRadius: '10px', bgcolor: '#1E1E1E'}} />
+                        </>
+                    }
                     {trendingItems.map((item, index) => (
                             <TrendingItem key={index} index={index} currentShownItemId={props.currentShownItem ? props.currentShownItem.id : null} addItem={handleItemAdd} showItem={handleItemShow} title={item.name || item.title} rating={item.vote_average} imageSrc={item.poster_path} id={item.id} type={item.media_type} release_date={item.release_date} original_air_date={item.first_air_date} backdropSrc={item.backdrop_path}/>
                         ))}
